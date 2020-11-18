@@ -178,7 +178,7 @@ class NewsCategory(datasets.GeneratorBasedBuilder):
                     'date': datasets.Value("string"),
                 }
             ),
-            homepage="hthttps://www.kaggle.com/rmisra/news-category-dataset",
+            homepage="https://www.kaggle.com/rmisra/news-category-dataset",
             citation=_CITATION,
         )
 
