@@ -35,7 +35,7 @@ This dataset contains around 200k news headlines from the year 2012 to 2018 obta
 Content
 
 Each news headline has a corresponding category. Categories and corresponding article counts are as follows:
-
+```
 POLITICS: 32739
 WELLNESS: 17827
 ENTERTAINMENT: 16058
@@ -77,6 +77,8 @@ COLLEGE: 1144
 LATINO VOICES: 1129
 CULTURE & ARTS: 1030
 EDUCATION: 1004
+```
+
 Acknowledgements
 
 This dataset was collected from HuffPost.
@@ -86,19 +88,6 @@ Inspiration
 Can you categorize news articles based on their headlines and short descriptions?
 Do news articles from different categories have different writing styles?
 A classifier trained on this dataset could be used on a free text to identify the type of language being used.
-Citation
-
-Please link to rishabhmisra.github.io/publications in your report.
-
-Thanks!
-
-Other datasets
-
-Please also checkout the following datasets collected by me:
-
-News Headlines Dataset For Sarcasm Detection
-Clothing Fit Dataset for Size Recommendation
-IMDB Spoiler Dataset
 """
 
 _CITATION = """\
