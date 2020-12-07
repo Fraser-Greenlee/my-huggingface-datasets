@@ -101,9 +101,9 @@ _CITATION = """\
 }
 """
 
-_TRAIN_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/news-category-dataset/master/train.json"
-_TEST_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/news-category-dataset/master/test.json"
-_VALIDATION_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/news-category-dataset/master/validation.json"
+_TRAIN_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/news-category/train.json"
+_TEST_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/news-category/test.json"
+_VALIDATION_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/news-category/validation.json"
 
 CATEGORIES = [
     'POLITICS',
