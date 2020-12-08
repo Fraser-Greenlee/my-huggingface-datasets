@@ -167,7 +167,7 @@ class NewsCategory(datasets.GeneratorBasedBuilder):
                     'date': datasets.Value("string"),
                 }
             ),
-            homepage="https://www.kaggle.com/rmisra/news-category-dataset",
+            homepage="https://github.com/Fraser-Greenlee/my-huggingface-datasets",
             citation=_CITATION,
         )
 

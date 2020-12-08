@@ -54,6 +54,10 @@ _CITATION = """\
 }
 """
 
+_TRAIN_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/python-lines/train.jsonl"
+_TEST_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/python-lines/test.jsonl"
+_VALIDATION_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/python-lines/valid.jsonl"
+
 
 class PythonLines(datasets.GeneratorBasedBuilder):
     """Python lines dataset."""
@@ -66,9 +70,19 @@ class PythonLines(datasets.GeneratorBasedBuilder):
                     'text': datasets.Value("string"),
                 }
             ),
-            homepage="",
+            homepage="https://github.com/Fraser-Greenlee/my-huggingface-datasets",
             citation=_CITATION,
         )
+
+    def _split_generators(self, dl_manager):
+        train_path = dl_manager.download_and_extract(_TRAIN_DOWNLOAD_URL)
+        test_path = dl_manager.download_and_extract(_TEST_DOWNLOAD_URL)
+        validation_path = dl_manager.download_and_extract(_VALIDATION_DOWNLOAD_URL)
+        return [
+            datasets.SplitGenerator(name=datasets.Split.TRAIN, gen_kwargs={"filepath": train_path}),
+            datasets.SplitGenerator(name=datasets.Split.TEST, gen_kwargs={"filepath": test_path}),
+            datasets.SplitGenerator(name=datasets.Split.VALIDATION, gen_kwargs={"filepath": validation_path}),
+        ]
 
     def _generate_examples(self, filepath):
         """Generate examples."""
