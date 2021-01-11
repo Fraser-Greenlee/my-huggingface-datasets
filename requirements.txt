@@ -1,0 +1,7 @@
+jupyterlab
+torch
+transformers
+datasets
+torchvision
+Pillow
+ipywidgets
