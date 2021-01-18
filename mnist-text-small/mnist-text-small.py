@@ -4,7 +4,7 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import shutil
+import os
 import math
 
 import numpy as np
@@ -60,7 +60,6 @@ _CITATION = """\
 """
 
 _TRAIN_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/mnist-text-small/train.json.zip"
-_TRAIN_UNZIP_PATH = "train.json"
 _TEST_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/mnist-text-small/test.json"
 
 LABELS = list(range(10))
@@ -92,11 +91,11 @@ class MnistTextSmall(datasets.GeneratorBasedBuilder):
 
             lines.append(' '.join(split))
 
-        reversed_lines = []
+        reversed = []
         for line in lines:
-            reversed_lines.insert(0, (line.replace(' down ', ' up ', 1)))
+            reversed.insert(0, (line.replace(' down ', ' up ', 1)))
 
-        return [lines, reversed_lines]
+        return ['\n'.join(lines), '\n'.join(reversed)]
 
     def text_to_array(text: str):
         lines = text.split('\n')
@@ -126,10 +125,12 @@ class MnistTextSmall(datasets.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager):
         train_path = dl_manager.download_and_extract(_TRAIN_DOWNLOAD_URL)
-        shutil.unpack_archive(train_path)
         test_path = dl_manager.download_and_extract(_TEST_DOWNLOAD_URL)
         return [
-            datasets.SplitGenerator(name=datasets.Split.TRAIN, gen_kwargs={"filepath": _TRAIN_UNZIP_PATH}),
+            datasets.SplitGenerator(
+                name=datasets.Split.TRAIN,
+                gen_kwargs={"filepath": os.path.join(train_path, 'train.json')}
+            ),
             datasets.SplitGenerator(name=datasets.Split.TEST, gen_kwargs={"filepath": test_path}),
         ]
 

@@ -106,7 +106,7 @@ class MnistText(datasets.GeneratorBasedBuilder):
         for line in lines:
             reversed.insert(0, (line.replace(' down ', ' up ', 1)))
 
-        return [lines, reversed]
+        return ['\n'.join(lines), '\n'.join(reversed)]
 
     def text_to_array(text: str):
         lines = text.split('\n')
@@ -139,7 +139,7 @@ class MnistText(datasets.GeneratorBasedBuilder):
         test_path = dl_manager.download_and_extract(_TEST_DOWNLOAD_URL)
         return [
             datasets.SplitGenerator(
-                name=datasets.Split.TRAIN, gen_kwargs={"filepath": os.path.join(train_path, 'mnsit-text-train.json')}
+                name=datasets.Split.TRAIN, gen_kwargs={"filepath": os.path.join(train_path, 'train.json')}
             ),
             datasets.SplitGenerator(name=datasets.Split.TEST, gen_kwargs={"filepath": test_path}),
         ]
