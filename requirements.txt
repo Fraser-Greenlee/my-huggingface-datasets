@@ -5,3 +5,4 @@ datasets
 torchvision
 Pillow
 ipywidgets
+matplotlib

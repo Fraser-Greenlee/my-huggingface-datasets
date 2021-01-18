@@ -4,7 +4,7 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import shutil
+import os
 import math
 
 import numpy as np
@@ -71,7 +71,6 @@ _CITATION = """\
 """
 
 _TRAIN_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/mnist-text/train.json.zip"
-_TRAIN_UNZIP_PATH = "train.json"
 _TEST_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/mnist-text/test.json"
 
 LABELS = list(range(10))
@@ -137,10 +136,11 @@ class MnistText(datasets.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager):
         train_path = dl_manager.download_and_extract(_TRAIN_DOWNLOAD_URL)
-        shutil.unpack_archive(train_path)
         test_path = dl_manager.download_and_extract(_TEST_DOWNLOAD_URL)
         return [
-            datasets.SplitGenerator(name=datasets.Split.TRAIN, gen_kwargs={"filepath": _TRAIN_UNZIP_PATH}),
+            datasets.SplitGenerator(
+                name=datasets.Split.TRAIN, gen_kwargs={"filepath": os.path.join(train_path, 'mnsit-text-train.json')}
+            ),
             datasets.SplitGenerator(name=datasets.Split.TEST, gen_kwargs={"filepath": test_path}),
         ]
 
