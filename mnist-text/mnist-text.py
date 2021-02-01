@@ -117,7 +117,7 @@ class MnistText(datasets.GeneratorBasedBuilder):
             assert(tokens[1] == 'down')
             pixel_tokens = tokens[2:]
             for x, token in enumerate(pixel_tokens):
-                pixels[y, x] = ord(token) - 33
+                pixels[y, x] = (ord(token) - 33) / 64
 
         return pixels
 
