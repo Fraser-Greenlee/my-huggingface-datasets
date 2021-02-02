@@ -21,7 +21,7 @@ This allows testing interpolation quality for Transformer-VAEs.
 
 System is heavily inspired by Matthew Rayfield's work https://youtu.be/Z9K3cwSL6uM
 
-Works by quantising each MNIST pixel into on of 64 characters.
+Works by quantising each MNIST pixel into one of 64 characters.
 Every sample has an up & down version to encourage the model to learn rotation invarient features.
 
 Use `.array_to_text(` and `.text_to_array(` methods to test your generated data.
@@ -81,8 +81,6 @@ class MnistTextSmall(datasets.GeneratorBasedBuilder):
 
             for x in range(width):
                 brightness = pixels[y, x]
-
-                s = '~'
 
                 mBrightness = math.floor(brightness * 64)
                 s = chr(mBrightness + 33)
