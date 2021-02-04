@@ -63,13 +63,30 @@ _TRAIN_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-hugg
 _TEST_DOWNLOAD_URL = "https://raw.githubusercontent.com/Fraser-Greenlee/my-huggingface-datasets/master/data/mnist-text-small/test.json"
 
 LABELS = list(range(10))
+CUSTOM_METHODS = ['array_to_text', 'text_to_array']
+IMG_SIZE = (16, 14)
 
 
 class MnistTextSmall(datasets.GeneratorBasedBuilder):
     """MNIST represented by text."""
+
+    def as_dataset(self, *args, **kwargs):
+        f"""
+            Return a Dataset for the specified split.
+
+            Modified to add custom methods {CUSTOM_METHODS} to the dataset.
+            This allows rendering the text as images & vice versa.
+        """
+        a_dataset = super().as_dataset(*args, **kwargs)
+        for method in CUSTOM_METHODS:
+            setattr(a_dataset, f'custom_{method}', getattr(self, method))
+        return a_dataset
+
+    @staticmethod
     def array_to_text(pixels: np.array):
         '''
-            Takes a 2D array of pixel brightness, converts to text using 64 tokens to represent all brightness values.
+            Takes a 2D array of pixel brightnesses and converts them to text.
+            Uses 64 tokens to represent all brightness values.
         '''
         width = pixels.shape[0]
         height = pixels.shape[1]
@@ -95,16 +112,29 @@ class MnistTextSmall(datasets.GeneratorBasedBuilder):
 
         return ['\n'.join(lines), '\n'.join(reversed)]
 
+    @staticmethod
     def text_to_array(text: str):
+        '''
+            Takes a text sequences and tries to convert it into a 2D numpy array of brightnesses.
+            If parts of the text don't match the format they will be skipped.
+        '''
         lines = text.split('\n')
-        pixels = np.zeros((len(lines), len(lines[0].split(' ')) - 2))
+        pixels = np.zeros((IMG_SIZE[1], IMG_SIZE[0] - 2))
 
+        tokens = None
         for y, line in enumerate(lines):
             tokens = line.split(' ')
-            assert(tokens[1] == 'down')
-            pixel_tokens = tokens[2:]
-            for x, token in enumerate(pixel_tokens):
-                pixels[y, x] = (ord(token) - 33) / 64
+            for i in range(2, min(IMG_SIZE[0], len(tokens))):
+                token = tokens[i]
+                tkn_v = (ord(token) - 33)
+                if tkn_v >= 0 and tkn_v <= 64:
+                    pixels[y, i - 2] = (ord(token) - 33) / 64
+
+        if not lines:
+            return pixels
+
+        if tokens and len(tokens) > 1 and tokens[1] == 'up':
+            pixels = pixels[::-1]
 
         return pixels
 
