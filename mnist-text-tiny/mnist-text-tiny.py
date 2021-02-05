@@ -112,18 +112,18 @@ class MnistTextTiny(datasets.GeneratorBasedBuilder):
             Takes a text sequences and tries to convert it into a 2D numpy array of brightnesses.
             If parts of the text don't match the format they will be skipped.
         '''
-        lines = text.split('\n')
+        lines = text.strip().split('\n')
         pixels = np.zeros((IMG_SIZE[1], IMG_SIZE[0] - 2))
-
         tokens = None
-        for y, line in enumerate(lines):
+        for y in range(min(IMG_SIZE[1], len(lines))):
+            line = lines[y].strip()
             tokens = line.split(' ')
             for i in range(2, min(IMG_SIZE[0], len(tokens))):
                 token = tokens[i]
                 if len(token) == 1:
                     tkn_v = (ord(token) - 33)
                     if tkn_v >= 0 and tkn_v <= 64:
-                        pixels[y, i - 2] = (ord(token) - 33) / 64
+                        pixels[y, i - 2] = tkn_v / 64
 
         if not lines:
             return pixels
