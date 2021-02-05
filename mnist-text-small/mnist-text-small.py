@@ -126,9 +126,10 @@ class MnistTextSmall(datasets.GeneratorBasedBuilder):
             tokens = line.split(' ')
             for i in range(2, min(IMG_SIZE[0], len(tokens))):
                 token = tokens[i]
-                tkn_v = (ord(token) - 33)
-                if tkn_v >= 0 and tkn_v <= 64:
-                    pixels[y, i - 2] = (ord(token) - 33) / 64
+                if len(token) == 1:
+                    tkn_v = (ord(token) - 33)
+                    if tkn_v >= 0 and tkn_v <= 64:
+                        pixels[y, i - 2] = (ord(token) - 33) / 64
 
         if not lines:
             return pixels
